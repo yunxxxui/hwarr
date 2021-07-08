@@ -4,9 +4,9 @@ import { Link } from "react-router-dom";
 
 const NavContainer = styled.header`
     top: 0;
+    position: absolute;
     width: 100%;
     font-weight: bold;
-    
 `;
 
 const Nav = styled.div`
@@ -27,6 +27,7 @@ const Nav = styled.div`
 const List = styled.ul`
     display: flex;
     margin-left: auto;
+    z-index: 99;
 
     @media only screen and (max-width: 700px){
         display: none;
@@ -51,7 +52,6 @@ const Logo = styled.div`
     flex: none;
     @media only screen and (max-width: 700px){
         display: block;
-        z-index: 100;
     }
 `;
 
@@ -88,20 +88,23 @@ const Menu = styled.button`
 
 
 const GlobalNav = () => {
-
     const [isOpen, setNav] = useState(false);
     const toggleNav = () => {
         setNav(isOpen => !isOpen)
     }
-
     const closeNav = () => {
         setNav(false)
+        window.scrollTo(0, 0)
     }
 
     return (
         <NavContainer>
             <Nav>
-                <Logo>
+                <Logo style={{
+                    position: isOpen ? "fixed" : "",
+                    left: isOpen ? "16px" : "",
+                    zIndex: isOpen ? "100" : ""
+                }}>
                     <NavLink to="/" onClick={closeNav}><img src="img/Logo.svg" alt="Logo"></img></NavLink>
                 </Logo>
                 <List>
@@ -134,7 +137,7 @@ const GlobalNav = () => {
                     right: isOpen ? "16px" : ""
                 }}><img src="/img/Menu.svg" alt="menu"></img></Menu>
             </Nav>
-        </NavContainer>
+        </NavContainer >
     )
 };
 

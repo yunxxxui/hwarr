@@ -1,13 +1,15 @@
 import { useState, useEffect, useRef } from "react";
-import styled, { css, Keyframes } from "styled-components";
+import styled, { css } from "styled-components";
 
 
 //CSS
 const Sticky = css`
     position: fixed;
-    top: 0;
-    left: 0;
     width: 100%;
+    height: 100%;
+    top: 50%;
+    left: 50%;
+    transform: translate3d(-50%, -50%, 0);
 `;
 
 const Container = styled.div`
@@ -19,6 +21,7 @@ const Container = styled.div`
 const LocalContainer = styled.div`
     position: -webkit-sticky;
     position: sticky;
+    margin-top: 44px;
     top:-1px;
     z-index: 1;
     transition: background-color 0.5s cubic-bezier(0.28, 0.11, 0.32, 1);
@@ -37,9 +40,11 @@ const LocalList = styled.ul`
 const Item = styled.li`
     font-weight: bold;
     color: rgba(255, 255, 255, 1);
+    overflow:hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
 
     margin-right: 32px;
-    min-width: 240px;
     &:active {
         color: white;
     }
@@ -50,10 +55,11 @@ const Contact = styled.a`
     background: #FE3078;
 
     margin-left: auto;
-    padding: 4px 8px 4px 8px;
+    padding: 4px 12px;
     border-radius: 24px;
 
-    min-width: 64px;
+    min-width: 72px;
+    min-height: 24px;
 
     &:hover {
         background: white;
@@ -65,18 +71,19 @@ const ScrollSection = styled.div`
 `;
 
 const SceneA = styled.section`
-    height: 500vh;
-    border: 2px solid red;
+    border: 2px solid blue;
 `;
 
 const SceneB = styled.section`
-    height: 500vh;
-    border: 2px solid red;
+    border: 2px solid blue;
 `;
 
 const SceneC = styled.section`
-    height: 500vh;
-    border: 2px solid red;
+    border: 2px solid blue;
+`;
+
+const SceneD = styled.section`
+    border: 2px solid blue;
 `;
 
 const MainImg = styled.img`
@@ -84,7 +91,6 @@ const MainImg = styled.img`
     align-items: center;
     justify-content: center;
     margin: 40px auto;
-    padding-top: 250px;
 `;
 
 const Messages = styled.div`
@@ -92,9 +98,8 @@ const Messages = styled.div`
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    padding-top: 20vh;
-    ${Sticky};
     opacity: 0;
+    ${Sticky};
 `;
 
 const H1 = styled.h1`
@@ -104,7 +109,8 @@ const H1 = styled.h1`
     line-height: 1.2;
     text-align: center;
 
-    @media only screen and(max-width: 700px) {
+
+    @media only screen and (max-width: 700px) {
         font-size: 40px;
     }
 `;
@@ -116,9 +122,9 @@ const H2 = styled.h2`
     text-align: center;
 
     color: #FE3078;
-    margin-bottom: 32px;
+    padding-bottom: 32px;
 
-    @media only screen and(max-width: 700px) {
+    @media only screen and (max-width: 700px) {
         font-size: 16px;
     }
 `;
@@ -139,6 +145,18 @@ const H2 = styled.h2`
 //     text-align: center;
 // `;
 
+//sceneInfo
+const sceneInfo = [{
+    //all정보
+    heightNum: 5,
+
+}, {
+    //A0
+    messageA_opacity_in: [0, 1, { start: 0.1, end: 0.2 }],
+}, {
+    //B1
+
+}]
 
 //Click Event
 const useClick = onClick => {
@@ -157,41 +175,59 @@ const useClick = onClick => {
     return element;
 }
 
-//Scroll이벤트
-const useScroll = () => {
-    const [state, setState] = useState({ y: 0 });
-    const onScroll = () => {
-        setState({ y: parseInt(window.scrollY / 10) });
-    };
-
-    useEffect(() => {
-        window.addEventListener("scroll", onScroll)
-        return () => window.removeEventListener("scroll", onScroll)
-    }, [])
-
-    return state;
-};
-
 
 
 //HTML
 const Home = () => {
     //Clikc시 ScrollTop
     const scrollTop = () => window.scrollTo(0, 0)
+
+    //all이벤트
+    const useEvent = () => {
+        const [state, setState] = useState({ scrollY: 0, totlaRatioY: 0, sceneHeight: 0, currentScene: 1 });
+        const onEvent = () => {
+            setState({
+                scrollY: window.scrollY,
+                sceneHeight: (sceneInfo[0].heightNum * window.innerHeight),
+                totlaRatioY: (window.scrollY / ((sceneInfo[0].heightNum * window.innerHeight) + 104)),
+                currentScene: parseInt((window.scrollY / ((sceneInfo[0].heightNum * window.innerHeight) + 104)) + 1)
+            });
+        };
+
+        useEffect(() => {
+            window.addEventListener("scroll", onEvent);
+            return () => window.removeEventListener("scroll", onEvent)
+        }, [])
+
+        useEffect(() => {
+            window.addEventListener("resize", onEvent);
+            return () => window.removeEventListener("resize", onEvent)
+        }, [])
+
+        useEffect(() => {
+            onEvent();
+            return () => onEvent();
+        }, [])
+
+        return state;
+    };
+
     const title = useClick(scrollTop);
-    const { y } = useScroll();
-    console.log(y)
+    const { scrollY, totlaRatioY, sceneHeight, currentScene } = useEvent();
+    const currentRatioY = totlaRatioY - (currentScene - 1);
+    console.log({ scrollY })
+    //currentScene는 현재씬, totlaRatioY는 전체씬의 비율(=scrollRatio)
 
     return (
         <>
-            <LocalContainer style={{
-                backdropFilter: y > 52 ? "saturate(180%) blur(20px)" : "",
-                backgroundColor: y > 52 ? "rgba(29,29,31,0.72)" : "",
-                borderBottom: y > 52 ? "1px solid rgba(255,255,255,0.1)" : "",
+            <LocalContainer keyframe={sceneInfo.messageA_opacity_in} style={{
+                backdropFilter: scrollY > 52 ? "saturate(180%) blur(20px)" : "",
+                backgroundColor: scrollY > 52 ? "rgba(29,29,31,0.72)" : "",
+                borderBottom: scrollY > 52 ? "1px solid rgba(255,255,255,0.1)" : "",
             }}>
                 <LocalList>
                     <Item>
-                        <span ref={title}>스토리 마케팅 전문 회사, 화르르</span>
+                        <span ref={title}>스토리 마케팅 회사, 화르르</span>
                     </Item>
                     <Contact>
                         연락하기
@@ -201,9 +237,12 @@ const Home = () => {
 
             <Container>
                 <ScrollSection>
-                    <SceneA>
+                    <SceneA style={{ height: `${sceneHeight}px`, }}>
                         <MainImg src="/img/01_Hi.png" alt="charcter"></MainImg>
-                        <Messages>
+                        <Messages style={{
+                            display: currentScene === 1 ? "flex" : "none",
+                            opacity: `${currentRatioY}`
+                        }}>
                             <H2>캐릭터로 시작하는 마케팅</H2>
                             <H1>여러분 이야기의</H1>
                             <H1>불을 지펴요</H1>
@@ -224,10 +263,24 @@ const Home = () => {
                             <Text>당신의 이미지로 만듭니다.</Text>
                         </Messages> */}
                     </SceneA>
-                    <SceneB id="chapterB">
+                    <SceneB style={{ height: `${sceneHeight}px` }}>
+                        <Messages style={{
+                            display: currentScene === 2 ? "flex" : "none",
+                            opacity: `${currentRatioY}`
+                        }}>
+                            <H1>sex</H1>
+                        </Messages>
                     </SceneB>
-                    <SceneC id="chapterC">
+                    <SceneC style={{ height: `${sceneHeight}px` }}>
+                        <Messages style={{
+                            display: currentScene === 3 ? "flex" : "none",
+                            opacity: `${currentRatioY}`
+                        }}>
+                            <H1>fuck</H1>
+                        </Messages>
                     </SceneC>
+                    <SceneD style={{ height: `${sceneHeight}px` }}>
+                    </SceneD>
                 </ScrollSection >
             </Container >
         </>
