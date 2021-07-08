@@ -3,6 +3,7 @@ import reset from "styled-reset"
 
 const globalStyles = createGlobalStyle`
     ${reset};
+
     a{
         text-decoration: none;
         color: inherit;
@@ -14,8 +15,9 @@ const globalStyles = createGlobalStyle`
         overflow-x: hidden;
         width: 100%;
         color: white;
-        font: -apple-system, 'SF Pro Display', 'Helvetica Neue',  'Apple SD Gothic Neo', 'Roboto', 'Noto Sans KR', 'Malgun Gothic', sans-serif;
+        font: -apple-system,'SF Pro Display','Spoqa Han Sans Neo', 'Helvetica Neue',  'Apple SD Gothic Neo', 'Roboto', 'Noto Sans KR', 'Malgun Gothic', sans-serif;
         font-size: 16px;
+        line-height: 1.7;
         background-color: black;
     }
 `;

@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-import styled, { css } from "styled-components";
+import styled, { css, keyframes } from "styled-components";
 
 
 //CSS
@@ -11,6 +11,16 @@ const Sticky = css`
     left: 0;
     padding-top: 56px;
 `;
+
+const fuck = keyframes`
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+`
+
 
 const Container = styled.div`
     max-width: 832px;
@@ -89,7 +99,7 @@ const MainImg = styled.img`
     align-items: center;
     justify-content: center;
     margin: 40px auto;
-    padding-top: 30vh;
+    padding-top: 15vh;
 `;
 
 const Messages = styled.div`
@@ -102,13 +112,13 @@ const Messages = styled.div`
 `;
 
 const H1 = styled.h1`
-    font-family: Gmarket Sans;
-    font-size: 80px;
+    font-family: 'Spoqa Han Sans Neo';
+    font-size: 64px;
     font-weight: 700;
     line-height: 1.2;
     text-align: center;
 
-
+    
     @media only screen and (max-width: 700px) {
         font-size: 40px;
     }
@@ -117,15 +127,12 @@ const H1 = styled.h1`
 const H2 = styled.h2`
     font-size: 32px;
     font-weight: bold;
-    line-height: 32px;
     text-align: center;
 
     color: #FE3078;
-    padding-bottom: 32px;
 
     @media only screen and (max-width: 700px) {
         font-size: 16px;
-        padding-bottom: 16px;
     }
 `;
 
@@ -133,10 +140,10 @@ const H3 = styled.h3`
     font-size: 16px;
     font-weight: bold;
     text-align: center;
-
     color: #FE3078;
-    margin-bottom: 16px;
-`;
+
+    animation: ${fuck} 2s ease-in-out 0s infinite  alternate;
+`
 
 const Text = styled.p`
     font-size: 24px;
@@ -224,13 +231,15 @@ const playAnimation = (y, s) => {
     let v = {};
 
     const i = {
+
+
         //01,02
         messageA_opacity_in: [
             0,
             1,
             {
-                start: 0.1,
-                end: 0.2
+                start: 0.05,
+                end: 0.1
             }
         ],
         messageA_opacity_out: [
@@ -238,7 +247,7 @@ const playAnimation = (y, s) => {
             0,
             {
                 start: 0.25,
-                end: 0.3
+                end: 0.32
             }
         ],
         messageA_translateY_in: [
@@ -246,24 +255,26 @@ const playAnimation = (y, s) => {
             0,
             {
                 start: 0.1,
-                end: 0.2
+                end: 0.21
             }
         ],
         messageA_translateY_out: [
             0,
             -5,
             {
-                start: 0.25,
-                end: 0.3
+                start: 0.23,
+                end: 0.32
             }
         ],
+
+
         //03,04
         messageB_opacity_in: [
             0,
             1,
             {
-                start: 0.4,
-                end: 0.5
+                start: 0.3,
+                end: 0.35
             }
         ],
         messageB_opacity_out: [
@@ -271,32 +282,34 @@ const playAnimation = (y, s) => {
             0,
             {
                 start: 0.55,
-                end: 0.6
+                end: 0.62
             }
         ],
         messageB_translateY_in: [
             5,
             0,
             {
-                start: 0.4,
-                end: 0.5
+                start: 0.3,
+                end: 0.51
             }
         ],
         messageB_translateY_out: [
             0,
             -5,
             {
-                start: 0.55,
-                end: 0.6
+                start: 0.53,
+                end: 0.62
             }
         ],
+
+
         //05,06
         messageC_opacity_in: [
             0,
             1,
             {
-                start: 0.7,
-                end: 0.8
+                start: 0.6,
+                end: 0.65
             }
         ],
         messageC_opacity_out: [
@@ -304,25 +317,53 @@ const playAnimation = (y, s) => {
             0,
             {
                 start: 0.85,
-                end: 0.9
+                end: 0.95
             }
         ],
         messageC_translateY_in: [
             5,
             0,
             {
-                start: 0.7,
-                end: 0.8
+                start: 0.6,
+                end: 0.65
             }
         ],
         messageC_translateY_out: [
             0,
             -5,
             {
-                start: 0.85,
-                end: 0.99
+                start: 0.83,
+                end: 0.95
             }
-        ]
+        ],
+        
+        //07
+        messageD_matrix_in: [
+            0,
+            30,
+            {
+                start: 0.05,
+                end: 0.5
+                
+            }
+        ],
+        messageD_opacity_in: [
+            0,
+            1,
+            {
+                start: 0.05,
+                end: 0.1
+            }
+        ],
+        messageD_opacity_out: [
+            1,
+            0,
+            {
+                start: 0.45,
+                end: 0.5
+            }
+        ],
+
     }
     switch (s) {
         case 1:
@@ -353,6 +394,15 @@ const playAnimation = (y, s) => {
 
             break;
         case 2:
+
+                v.action7 = calc(i.messageD_matrix_in, y);
+
+                if (y < 0.22) {
+                    v.action8 = calc(i.messageD_opacity_in, y);
+                } else {
+                    v.action8 = calc(i.messageD_opacity_out, y);
+                }
+
             break;
         case 3:
             break;
@@ -379,6 +429,7 @@ const Home = () => {
     const currentRatioY = (totlaRatioY - (currentScene - 1));
     //animation
     const value = playAnimation(currentRatioY, currentScene);
+    console.log(value);
 
     return (
         <>
@@ -400,9 +451,10 @@ const Home = () => {
             <Container>
                 <ScrollSection>
                     <SceneA style={{ height: `${sceneHeight}px`, }}>
-
                         <MainImg src="/img/01_Hi.png" alt="charcter"></MainImg>
-
+                        <H1>스튜디오 화르르</H1>
+                        <H3 id="blink">↓ 스크롤을 해주세요. ↓</H3>
+                        
                         <Messages style={{
                             display: currentScene === 1 ? "flex" : "none",
                             opacity: `${value.action1}`,
@@ -433,7 +485,14 @@ const Home = () => {
 
                     </SceneA>
                     <SceneB style={{ height: `${sceneHeight}px` }}>
-
+                        <Messages style={{
+                            display: currentScene === 2 ? "flex" : "none",
+                            opacity: `${value.action8}`,
+                            transform: `scale(${value.action7}, ${value.action7}) translateY(-4%)`,
+                        }}>
+                            <H1>SEX</H1>
+                            <H1>On the Beach</H1>
+                        </Messages>
                     </SceneB>
                     <SceneC style={{ height: `${sceneHeight}px` }}>
 
