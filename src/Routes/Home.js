@@ -10,6 +10,7 @@ const Sticky = css`
     top: 50%;
     left: 50%;
     transform: translate3d(-50%, -50%, 0);
+    padding-top: 56px;
 `;
 
 const Container = styled.div`
@@ -68,22 +69,20 @@ const Contact = styled.a`
 `;
 
 const ScrollSection = styled.div`
+    margin-top: -48px;
 `;
 
 const SceneA = styled.section`
-    border: 2px solid blue;
+    padding-top: 48px;
 `;
 
 const SceneB = styled.section`
-    border: 2px solid blue;
 `;
 
 const SceneC = styled.section`
-    border: 2px solid blue;
 `;
 
 const SceneD = styled.section`
-    border: 2px solid blue;
 `;
 
 const MainImg = styled.img`
@@ -91,6 +90,7 @@ const MainImg = styled.img`
     align-items: center;
     justify-content: center;
     margin: 40px auto;
+    padding-top: 30vh;
 `;
 
 const Messages = styled.div`
@@ -126,6 +126,7 @@ const H2 = styled.h2`
 
     @media only screen and (max-width: 700px) {
         font-size: 16px;
+        padding-bottom: 16px;
     }
 `;
 
@@ -148,7 +149,7 @@ const H2 = styled.h2`
 //sceneInfo
 const sceneInfo = [{
     //all정보
-    heightNum: 5,
+    heightNum: 8,
 
 }, {
     //A0
@@ -175,48 +176,50 @@ const useClick = onClick => {
     return element;
 }
 
+//Clikc시 ScrollTop
+const scrollTop = () => window.scrollTo(0, 0)
 
+//all이벤트
+const useEvent = () => {
+    const [state, setState] = useState({ scrollY: 0, totlaRatioY: 0, sceneHeight: 0, currentScene: 1 });
+    const onEvent = () => {
+        setState({
+            scrollY: window.scrollY,
+            sceneHeight: (sceneInfo[0].heightNum * window.innerHeight),
+            totlaRatioY: (window.scrollY / (sceneInfo[0].heightNum * window.innerHeight)),
+            currentScene: parseInt((window.scrollY / (sceneInfo[0].heightNum * window.innerHeight)) + 1)
+        });
+    };
+
+    useEffect(() => {
+        window.addEventListener("scroll", onEvent);
+        return () => window.removeEventListener("scroll", onEvent)
+    }, [])
+
+    useEffect(() => {
+        window.addEventListener("resize", onEvent);
+        return () => window.removeEventListener("resize", onEvent)
+    }, [])
+
+    useEffect(() => {
+        onEvent();
+        return () => onEvent();
+    }, [])
+
+    return state;
+};
 
 //HTML
 const Home = () => {
-    //Clikc시 ScrollTop
-    const scrollTop = () => window.scrollTo(0, 0)
-
-    //all이벤트
-    const useEvent = () => {
-        const [state, setState] = useState({ scrollY: 0, totlaRatioY: 0, sceneHeight: 0, currentScene: 1 });
-        const onEvent = () => {
-            setState({
-                scrollY: window.scrollY,
-                sceneHeight: (sceneInfo[0].heightNum * window.innerHeight),
-                totlaRatioY: (window.scrollY / ((sceneInfo[0].heightNum * window.innerHeight) + 104)),
-                currentScene: parseInt((window.scrollY / ((sceneInfo[0].heightNum * window.innerHeight) + 104)) + 1)
-            });
-        };
-
-        useEffect(() => {
-            window.addEventListener("scroll", onEvent);
-            return () => window.removeEventListener("scroll", onEvent)
-        }, [])
-
-        useEffect(() => {
-            window.addEventListener("resize", onEvent);
-            return () => window.removeEventListener("resize", onEvent)
-        }, [])
-
-        useEffect(() => {
-            onEvent();
-            return () => onEvent();
-        }, [])
-
-        return state;
-    };
-
+    //Clikc이벤트
     const title = useClick(scrollTop);
+    //Scroll이벤트
+    //scrollY는 현재 스클롤 위치
+    //currentScene는 현재씬
+    //totlaRatioY는 전체씬의 비율(=scrollRatio)
     const { scrollY, totlaRatioY, sceneHeight, currentScene } = useEvent();
-    const currentRatioY = totlaRatioY - (currentScene - 1);
-    console.log({ scrollY })
-    //currentScene는 현재씬, totlaRatioY는 전체씬의 비율(=scrollRatio)
+    const currentRatioY = (totlaRatioY - (currentScene - 1));
+    console.log({ currentRatioY, currentScene })
 
     return (
         <>
@@ -241,7 +244,7 @@ const Home = () => {
                         <MainImg src="/img/01_Hi.png" alt="charcter"></MainImg>
                         <Messages style={{
                             display: currentScene === 1 ? "flex" : "none",
-                            opacity: `${currentRatioY}`
+                            opacity: `${currentRatioY}`,
                         }}>
                             <H2>캐릭터로 시작하는 마케팅</H2>
                             <H1>여러분 이야기의</H1>
