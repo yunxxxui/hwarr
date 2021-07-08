@@ -7,9 +7,8 @@ const Sticky = css`
     position: fixed;
     width: 100%;
     height: 100%;
-    top: 50%;
-    left: 50%;
-    transform: translate3d(-50%, -50%, 0);
+    top: 0;
+    left: 0;
     padding-top: 56px;
 `;
 
@@ -130,34 +129,21 @@ const H2 = styled.h2`
     }
 `;
 
-// const H3 = styled.h3`
-//     font-size: 16px;
-//     font-weight: bold;
-//     text-align: center;
+const H3 = styled.h3`
+    font-size: 16px;
+    font-weight: bold;
+    text-align: center;
 
-//     color: #FE3078;
-//     margin-bottom: 16px;
-// `;
+    color: #FE3078;
+    margin-bottom: 16px;
+`;
 
-// const Text = styled.p`
-//     font-size: 24px;
-//     font-weight: bold;
-//     line-height: 36px;
-//     text-align: center;
-// `;
-
-//sceneInfo
-const sceneInfo = [{
-    //all정보
-    heightNum: 8,
-
-}, {
-    //A0
-    messageA_opacity_in: [0, 1, { start: 0.1, end: 0.2 }],
-}, {
-    //B1
-
-}]
+const Text = styled.p`
+    font-size: 24px;
+    font-weight: bold;
+    line-height: 36px;
+    text-align: center;
+`;
 
 //Click Event
 const useClick = onClick => {
@@ -209,17 +195,190 @@ const useEvent = () => {
     return state;
 };
 
+//sceneInfo
+const sceneInfo = [{
+    //화면 높이 * heightNum = 씬 높이(=애니메이션 총 길이)
+    heightNum: 5,
+}]
+
+//애니메이션 값 계산
+const calc = (v, y) => {
+    let rv = []
+
+    const trigger = v[2]
+
+    if (trigger.start <= y && y <= trigger.end) {
+        rv = (y - trigger.start) / (trigger.end - trigger.start) * (v[1] - v[0]) + v[0]
+    } else if (y < trigger.start) {
+        rv = v[0]
+    } else if (trigger.end < y) {
+        rv = v[1]
+    }
+
+
+    return rv
+}
+
+//애니메이션 실행
+const playAnimation = (y, s) => {
+    let v = {};
+
+    const i = {
+        //01,02
+        messageA_opacity_in: [
+            0,
+            1,
+            {
+                start: 0.1,
+                end: 0.2
+            }
+        ],
+        messageA_opacity_out: [
+            1,
+            0,
+            {
+                start: 0.25,
+                end: 0.3
+            }
+        ],
+        messageA_translateY_in: [
+            5,
+            0,
+            {
+                start: 0.1,
+                end: 0.2
+            }
+        ],
+        messageA_translateY_out: [
+            0,
+            -5,
+            {
+                start: 0.25,
+                end: 0.3
+            }
+        ],
+        //03,04
+        messageB_opacity_in: [
+            0,
+            1,
+            {
+                start: 0.4,
+                end: 0.5
+            }
+        ],
+        messageB_opacity_out: [
+            1,
+            0,
+            {
+                start: 0.55,
+                end: 0.6
+            }
+        ],
+        messageB_translateY_in: [
+            5,
+            0,
+            {
+                start: 0.4,
+                end: 0.5
+            }
+        ],
+        messageB_translateY_out: [
+            0,
+            -5,
+            {
+                start: 0.55,
+                end: 0.6
+            }
+        ],
+        //05,06
+        messageC_opacity_in: [
+            0,
+            1,
+            {
+                start: 0.7,
+                end: 0.8
+            }
+        ],
+        messageC_opacity_out: [
+            1,
+            0,
+            {
+                start: 0.85,
+                end: 0.9
+            }
+        ],
+        messageC_translateY_in: [
+            5,
+            0,
+            {
+                start: 0.7,
+                end: 0.8
+            }
+        ],
+        messageC_translateY_out: [
+            0,
+            -5,
+            {
+                start: 0.85,
+                end: 0.99
+            }
+        ]
+    }
+    switch (s) {
+        case 1:
+
+            if (y < 0.22) {
+                v.action1 = calc(i.messageA_opacity_in, y);
+                v.action2 = calc(i.messageA_translateY_in, y);
+            } else {
+                v.action1 = calc(i.messageA_opacity_out, y);
+                v.action2 = calc(i.messageA_translateY_out, y);
+            }
+
+            if (y < 0.52) {
+                v.action3 = calc(i.messageB_opacity_in, y);
+                v.action4 = calc(i.messageB_translateY_in, y);
+            } else {
+                v.action3 = calc(i.messageB_opacity_out, y);
+                v.action4 = calc(i.messageB_translateY_out, y);
+            }
+
+            if (y < 0.82) {
+                v.action5 = calc(i.messageC_opacity_in, y);
+                v.action6 = calc(i.messageC_translateY_in, y);
+            } else {
+                v.action5 = calc(i.messageC_opacity_out, y);
+                v.action6 = calc(i.messageC_translateY_out, y);
+            }
+
+            break;
+        case 2:
+            break;
+        case 3:
+            break;
+
+        default:
+            console.log("fucking not Any scene")
+    }
+
+
+    return v
+}
+
 //HTML
 const Home = () => {
     //Clikc이벤트
     const title = useClick(scrollTop);
+
     //Scroll이벤트
     //scrollY는 현재 스클롤 위치
     //currentScene는 현재씬
-    //totlaRatioY는 전체씬의 비율(=scrollRatio)
+    //totlaRatioY는 전체씬의 진행비율(=scrollRatio)
     const { scrollY, totlaRatioY, sceneHeight, currentScene } = useEvent();
+    //currnetRatioY는 현재씬의 진행비율
     const currentRatioY = (totlaRatioY - (currentScene - 1));
-    console.log({ currentRatioY, currentScene })
+    //animation
+    const value = playAnimation(currentRatioY, currentScene);
 
     return (
         <>
@@ -241,46 +400,43 @@ const Home = () => {
             <Container>
                 <ScrollSection>
                     <SceneA style={{ height: `${sceneHeight}px`, }}>
+
                         <MainImg src="/img/01_Hi.png" alt="charcter"></MainImg>
+
                         <Messages style={{
                             display: currentScene === 1 ? "flex" : "none",
-                            opacity: `${currentRatioY}`,
+                            opacity: `${value.action1}`,
+                            transform: `translate3d(0,${value.action2}%,0)`
                         }}>
                             <H2>캐릭터로 시작하는 마케팅</H2>
                             <H1>여러분 이야기의</H1>
                             <H1>불을 지펴요</H1>
                         </Messages>
-                        {/* <Messages>
+
+                        <Messages style={{
+                            display: currentScene === 1 ? "flex" : "none",
+                            opacity: `${value.action3}`,
+                            transform: `translate3d(0,${value.action4}%,0)`
+                        }}>
                             <H1>기계적, 반복적</H1>
                             <H1>광고가 아닌</H1>
                         </Messages>
 
-                        <Messages>
+                        <Messages style={{
+                            display: currentScene === 1 ? "flex" : "none",
+                            opacity: `${value.action5}`,
+                            transform: `translate3d(0,${value.action6}%,0)`
+                        }}>
                             <H1>단, 하나뿐인</H1>
                             <H1>당신의 이야기.</H1>
                         </Messages>
-                        <Messages>
-                            <H3>여러분의 이미지는 무엇인가요?</H3>
-                            <Text>다른 곳과 달리</Text>
-                            <Text>여러분의 이야기를</Text>
-                            <Text>당신의 이미지로 만듭니다.</Text>
-                        </Messages> */}
+
                     </SceneA>
                     <SceneB style={{ height: `${sceneHeight}px` }}>
-                        <Messages style={{
-                            display: currentScene === 2 ? "flex" : "none",
-                            opacity: `${currentRatioY}`
-                        }}>
-                            <H1>sex</H1>
-                        </Messages>
+
                     </SceneB>
                     <SceneC style={{ height: `${sceneHeight}px` }}>
-                        <Messages style={{
-                            display: currentScene === 3 ? "flex" : "none",
-                            opacity: `${currentRatioY}`
-                        }}>
-                            <H1>fuck</H1>
-                        </Messages>
+
                     </SceneC>
                     <SceneD style={{ height: `${sceneHeight}px` }}>
                     </SceneD>

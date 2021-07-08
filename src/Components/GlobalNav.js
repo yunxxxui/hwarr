@@ -35,21 +35,23 @@ const List = styled.ul`
 `;
 
 const MobileList = styled.ul`
-    display: none;
     flex-direction: column;
     background-color: black;
     width: 100%;
     position: fixed;
     top:0;
-    left:0;
+    right:0;
     height: 100vh;
     z-index: 99;
     padding-top: 52px;
+    opacity: 0;
+    transition: all 0.2s ease-in-out;
 `;
 
 
 const Logo = styled.div`
     flex: none;
+    z-index: 100;
     @media only screen and (max-width: 700px){
         display: block;
     }
@@ -58,6 +60,8 @@ const Logo = styled.div`
 const Item = styled.li`
     margin-left: 32px;
     color: rgba(255, 255, 255, 0.7);
+    transform: translate3d(5%, 0, 0);
+    transition: all 0.3s ease-in-out;
     &:hover {
         color: white;
     }
@@ -103,7 +107,6 @@ const GlobalNav = () => {
                 <Logo style={{
                     position: isOpen ? "fixed" : "",
                     left: isOpen ? "16px" : "",
-                    zIndex: isOpen ? "100" : ""
                 }}>
                     <NavLink to="/" onClick={closeNav}><img src="img/Logo.svg" alt="Logo"></img></NavLink>
                 </Logo>
@@ -119,16 +122,26 @@ const GlobalNav = () => {
                     </Item>
                 </List>
                 <MobileList style={{
-                    display: isOpen ? "flex" : "none",
-                    opacity: isOpen ? "1" : "0"
+                    display: isOpen ? "flex" : "hidden",
+                    opacity: isOpen ? "1" : "0",
+                    right: isOpen ? "0" : "-100vh"
                 }}>
-                    <Item>
+                    <Item style={{
+                        transform: isOpen ? "translate3d(0, 0, 0)" : "",
+                        transitionDelay: "0.1s"
+                    }}>
                         <NavLink to="/About" onClick={closeNav}>회사 소개</NavLink>
                     </Item>
-                    <Item>
+                    <Item style={{
+                        transform: isOpen ? "translate3d(0, 0, 0)" : "",
+                        transitionDelay: "0.2s"
+                    }}>
                         <NavLink to="/Projects" onClick={closeNav}>프로젝트</NavLink>
                     </Item>
-                    <Item>
+                    <Item style={{
+                        transform: isOpen ? "translate3d(0, 0, 0)" : "",
+                        transitionDelay: "0.3s"
+                    }}>
                         <NavLink to="/FAQ" onClick={closeNav}>자주 묻는 질문</NavLink>
                     </Item>
                 </MobileList>
