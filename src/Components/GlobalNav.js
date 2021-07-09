@@ -148,7 +148,7 @@ const GlobalNav = () => {
                 <Menu onClick={toggleNav} style={{
                     position: isOpen ? "fixed" : "",
                     right: isOpen ? "16px" : ""
-                }}><img src="/img/Menu.svg" alt="menu"></img></Menu>
+                }}><img src="img/Menu.svg" alt="menu"></img></Menu>
             </Nav>
         </NavContainer >
     )

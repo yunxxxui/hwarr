@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import styled, { css, keyframes } from "styled-components";
 
 
@@ -145,12 +145,47 @@ const H3 = styled.h3`
     animation: ${fuck} 2s ease-in-out 0s infinite  alternate;
 `
 
-const Text = styled.p`
-    font-size: 24px;
-    font-weight: bold;
-    line-height: 36px;
-    text-align: center;
+// const Text = styled.p`
+//     font-size: 24px;
+//     font-weight: bold;
+//     line-height: 36px;
+//     text-align: center;
+// `;
+
+const CanvasContainer = styled.div`
+    ${Sticky}
+    z-index: -1;
 `;
+
+const Canvas = styled.canvas`
+    position: absolute;
+    top:50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+`;
+
+
+
+//sceneInfo
+const sceneInfo = {
+    //화면 높이 * heightNum = 씬 높이(=애니메이션 총 길이)
+    heightNum: 5,
+    veideoImgages: [],
+    videoImageCount: 300,
+    imageSequence: [0, 299, {start:0, end:1}]
+}
+
+const setImages = () => {
+    let imgElem
+    for (let i = 0; i < sceneInfo.videoImageCount; i++) {
+        imgElem = document.createElement('img');
+        imgElem.src = `img/video/IMG_${6726 + i}.JPG`;
+        sceneInfo.veideoImgages.push(imgElem);
+    }
+
+    return imgElem
+}
+
 
 //Click Event
 const useClick = onClick => {
@@ -169,8 +204,12 @@ const useClick = onClick => {
     return element;
 }
 
+
+
 //Clikc시 ScrollTop
 const scrollTop = () => window.scrollTo(0, 0)
+
+
 
 //all이벤트
 const useEvent = () => {
@@ -178,9 +217,9 @@ const useEvent = () => {
     const onEvent = () => {
         setState({
             scrollY: window.scrollY,
-            sceneHeight: (sceneInfo[0].heightNum * window.innerHeight),
-            totlaRatioY: (window.scrollY / (sceneInfo[0].heightNum * window.innerHeight)),
-            currentScene: parseInt((window.scrollY / (sceneInfo[0].heightNum * window.innerHeight)) + 1)
+            sceneHeight: (sceneInfo.heightNum * window.innerHeight),
+            totlaRatioY: (window.scrollY / (sceneInfo.heightNum * window.innerHeight)),
+            currentScene: parseInt((window.scrollY / (sceneInfo.heightNum * window.innerHeight)) + 1)
         });
     };
 
@@ -202,11 +241,7 @@ const useEvent = () => {
     return state;
 };
 
-//sceneInfo
-const sceneInfo = [{
-    //화면 높이 * heightNum = 씬 높이(=애니메이션 총 길이)
-    heightNum: 5,
-}]
+
 
 //애니메이션 값 계산
 const calc = (v, y) => {
@@ -368,6 +403,9 @@ const playAnimation = (y, s) => {
     switch (s) {
         case 1:
 
+            //
+            v.sequence = Math.round(calc(sceneInfo.imageSequence, y));
+
             if (y < 0.22) {
                 v.action1 = calc(i.messageA_opacity_in, y);
                 v.action2 = calc(i.messageA_translateY_in, y);
@@ -427,13 +465,25 @@ const Home = () => {
     const { scrollY, totlaRatioY, sceneHeight, currentScene } = useEvent();
     //currnetRatioY는 현재씬의 진행비율
     const currentRatioY = (totlaRatioY - (currentScene - 1));
-    //animation
+    //typo animation
     const value = playAnimation(currentRatioY, currentScene);
-    console.log(value);
+    //video animation
+    let canvasRef = useRef(null);
+    useEffect(()=>{
+        setImages();
+    },[])
+    useEffect(()=> {
+        let canvas = canvasRef.current;
+        let context = canvas.getContext(`2d`);
+        if(currentScene ===1){
+            context.drawImage(sceneInfo.veideoImgages[value.sequence], 0, 0);
+        }
+    });
+
 
     return (
         <>
-            <LocalContainer keyframe={sceneInfo.messageA_opacity_in} style={{
+            <LocalContainer style={{
                 backdropFilter: scrollY > 52 ? "saturate(180%) blur(20px)" : "",
                 backgroundColor: scrollY > 52 ? "rgba(29,29,31,0.72)" : "",
                 borderBottom: scrollY > 52 ? "1px solid rgba(255,255,255,0.1)" : "",
@@ -451,7 +501,18 @@ const Home = () => {
             <Container>
                 <ScrollSection>
                     <SceneA style={{ height: `${sceneHeight}px`, }}>
-                        <MainImg src="/img/01_Hi.png" alt="charcter"></MainImg>
+                        <CanvasContainer>
+                            
+                            <Canvas
+                                ref={canvasRef}
+                                width={1920}
+                                height={1080}
+                                style={{
+                                    display: currentScene === 1 ? "block" : "none"
+                                }}
+                            ></Canvas>
+                        </CanvasContainer>
+                        <MainImg src="img/01_Hi.png" alt="charcter"></MainImg>
                         <H1>스튜디오 화르르</H1>
                         <H3 id="blink">↓ 스크롤을 해주세요. ↓</H3>
                         
