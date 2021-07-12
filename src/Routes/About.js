@@ -1,7 +1,3 @@
-const About = () => {
+const About = () => "About";
 
-    return (
-        "about"
-    )
-}
 export default About;
