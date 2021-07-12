@@ -128,19 +128,19 @@ const GlobalNav = () => {
                 }}>
                     <Item style={{
                         transform: isOpen ? "translate3d(0, 0, 0)" : "",
-                        transitionDelay: "0.1s"
+                        transitionDuration: "0.3s"
                     }}>
                         <NavLink to="/About" onClick={closeNav}>회사 소개</NavLink>
                     </Item>
                     <Item style={{
                         transform: isOpen ? "translate3d(0, 0, 0)" : "",
-                        transitionDelay: "0.2s"
+                        transitionDuration: "0.4s"
                     }}>
                         <NavLink to="/Projects" onClick={closeNav}>프로젝트</NavLink>
                     </Item>
                     <Item style={{
                         transform: isOpen ? "translate3d(0, 0, 0)" : "",
-                        transitionDelay: "0.3s"
+                        transitionDuration: "0.5s"
                     }}>
                         <NavLink to="/FAQ" onClick={closeNav}>자주 묻는 질문</NavLink>
                     </Item>

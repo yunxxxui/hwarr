@@ -1,3 +1,7 @@
-const About = () => "About";
+const About = () => {
 
+    return (
+        "about"
+    )
+}
 export default About;

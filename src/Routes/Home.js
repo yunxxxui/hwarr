@@ -171,15 +171,16 @@ const sceneInfo = {
     //화면 높이 * heightNum = 씬 높이(=애니메이션 총 길이)
     heightNum: 5,
     veideoImgages: [],
-    videoImageCount: 300,
-    imageSequence: [0, 299, {start:0, end:1}]
+    videoImageCount: 475,
+    imageSequence: [0, 474, {start:0, end:1}]
 }
 
 const setImages = () => {
+    console.log("이미지 로드")
     let imgElem
     for (let i = 0; i < sceneInfo.videoImageCount; i++) {
         imgElem = document.createElement('img');
-        imgElem.src = `img/video/IMG_${6726 + i}.JPG`;
+        imgElem.src = `img/video/IMG_${1000 + i}.JPG`;
         sceneInfo.veideoImgages.push(imgElem);
     }
 
@@ -213,6 +214,7 @@ const scrollTop = () => window.scrollTo(0, 0)
 
 //all이벤트
 const useEvent = () => {
+    console.log("이벤트 할당")
     const [state, setState] = useState({ scrollY: 0, totlaRatioY: 0, sceneHeight: 0, currentScene: 1 });
     const onEvent = () => {
         setState({
@@ -245,6 +247,7 @@ const useEvent = () => {
 
 //애니메이션 값 계산
 const calc = (v, y) => {
+    console.log("애니메이션 위치 계산")
     let rv = []
 
     const trigger = v[2]
@@ -263,6 +266,8 @@ const calc = (v, y) => {
 
 //애니메이션 실행
 const playAnimation = (y, s) => {
+    console.log("애니메이션 실행")
+
     let v = {};
 
     const i = {
@@ -398,6 +403,14 @@ const playAnimation = (y, s) => {
                 end: 0.5
             }
         ],
+        video_opacity_out: [
+            1,
+            0,
+            {
+                start: 0.9,
+                end: 0.99
+            }
+        ],
 
     }
     switch (s) {
@@ -405,6 +418,7 @@ const playAnimation = (y, s) => {
 
             //
             v.sequence = Math.round(calc(sceneInfo.imageSequence, y));
+            v.action0 = calc(i.video_opacity_out, y);
 
             if (y < 0.22) {
                 v.action1 = calc(i.messageA_opacity_in, y);
@@ -443,6 +457,13 @@ const playAnimation = (y, s) => {
 
             break;
         case 3:
+            if (y < 0.22) {
+                v.action1 = calc(i.messageA_opacity_in, y);
+                v.action2 = calc(i.messageA_translateY_in, y);
+            } else {
+                v.action1 = calc(i.messageA_opacity_out, y);
+                v.action2 = calc(i.messageA_translateY_out, y);
+            }
             break;
 
         default:
@@ -473,10 +494,12 @@ const Home = () => {
         setImages();
     },[])
     useEffect(()=> {
+        
         let canvas = canvasRef.current;
         let context = canvas.getContext(`2d`);
         if(currentScene ===1){
             context.drawImage(sceneInfo.veideoImgages[value.sequence], 0, 0);
+            console.log("캔버스 애니메이션 실행")
         }
     });
 
@@ -489,8 +512,20 @@ const Home = () => {
                 borderBottom: scrollY > 52 ? "1px solid rgba(255,255,255,0.1)" : "",
             }}>
                 <LocalList>
-                    <Item>
+                    <Item style={{
+                                    color: currentScene === 1 ? "white" : "rgba(255,255,255,0.7)"
+                                }}>
                         <span ref={title}>스토리 마케팅 회사, 화르르</span>
+                    </Item>
+                    <Item style={{
+                                    color: currentScene === 2 ? "white" : "rgba(255,255,255,0.7)"
+                                }}>
+                        <a href="#section-2">섹션2</a>
+                    </Item>
+                    <Item style={{
+                                    color: currentScene === 3 ? "white" : "rgba(255,255,255,0.7)"
+                                }}>
+                        <a href="#section-3">섹션3</a>
                     </Item>
                     <Contact>
                         연락하기
@@ -500,7 +535,7 @@ const Home = () => {
 
             <Container>
                 <ScrollSection>
-                    <SceneA style={{ height: `${sceneHeight}px`, }}>
+                    <SceneA style={{ height: `${sceneHeight}px`, opacity: `${value.action0}`,}}>
                         <CanvasContainer>
                             
                             <Canvas
@@ -545,7 +580,7 @@ const Home = () => {
                         </Messages>
 
                     </SceneA>
-                    <SceneB style={{ height: `${sceneHeight}px` }}>
+                    <SceneB id="section-2" style={{ height: `${sceneHeight}px` }}>
                         <Messages style={{
                             display: currentScene === 2 ? "flex" : "none",
                             opacity: `${value.action8}`,
@@ -555,8 +590,15 @@ const Home = () => {
                             <H1>On the Beach</H1>
                         </Messages>
                     </SceneB>
-                    <SceneC style={{ height: `${sceneHeight}px` }}>
-
+                    <SceneC id="section-3" style={{ height: `${sceneHeight}px` }}>
+                        <Messages style={{
+                            display: currentScene === 3 ? "flex" : "none",
+                            opacity: `${value.action1}`,
+                            transform: `translate3d(0,${value.action2}%,0)`
+                        }}>
+                            <H1>유남쌩</H1>
+                            <H1>예에</H1>
+                        </Messages>
                     </SceneC>
                     <SceneD style={{ height: `${sceneHeight}px` }}>
                     </SceneD>
