@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
+import LogoImg from "img/Logo.svg";
+import MenuImg from "img/Menu.svg";
 
 const NavContainer = styled.header`
     top: 0;
@@ -108,7 +110,7 @@ const GlobalNav = () => {
                     position: isOpen ? "fixed" : "",
                     left: isOpen ? "16px" : "",
                 }}>
-                    <NavLink to="/" onClick={closeNav}><img src={ require("img/Logo.svg").default} alt="Logo"></img></NavLink>
+                    <NavLink to="/" onClick={closeNav}><img src={ LogoImg } alt="Logo"></img></NavLink>
                 </Logo>
                 <List>
                     <Item>
@@ -148,7 +150,7 @@ const GlobalNav = () => {
                 <Menu onClick={toggleNav} style={{
                     position: isOpen ? "fixed" : "",
                     right: isOpen ? "16px" : ""
-                }}><img src={require("img/Menu.svg").default} alt="menu"></img></Menu>
+                }}><img src={MenuImg} alt="menu"></img></Menu>
             </Nav>
         </NavContainer >
     )

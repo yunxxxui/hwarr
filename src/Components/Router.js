@@ -1,8 +1,8 @@
 import { BrowserRouter as Router, Redirect, Route, Switch } from "react-router-dom";
-import Home from "../Routes/Home";
-import About from "../Routes/About"
-import Projects from "../Routes/Projects"
-import FAQ from "../Routes/FAQ"
+import Home from "Routes/Home";
+import About from "Routes/About"
+import Projects from "Routes/Projects"
+import FAQ from "Routes/FAQ"
 import GlobalNav from "./GlobalNav"
 
 const GlobalRouter = () => (
