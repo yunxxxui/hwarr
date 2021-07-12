@@ -58,6 +58,10 @@ const Item = styled.li`
     &:active {
         color: white;
     }
+
+    @media only screen and (max-width: 700px){
+        display: none;
+    }
 `;
 
 const Contact = styled.a`
@@ -513,17 +517,20 @@ const Home = () => {
             }}>
                 <LocalList>
                     <Item style={{
-                                    color: currentScene === 1 ? "white" : "rgba(255,255,255,0.7)"
+                                    color: currentScene === 1 ? "white" : "rgba(255,255,255,0.7)",
+                                    display: currentScene === 1 && "block"
                                 }}>
                         <span ref={title}>스토리 마케팅 회사, 화르르</span>
                     </Item>
                     <Item style={{
-                                    color: currentScene === 2 ? "white" : "rgba(255,255,255,0.7)"
+                                    color: currentScene === 2 ? "white" : "rgba(255,255,255,0.7)",
+                                    display: currentScene === 2 && "block"
                                 }}>
                         <a href="#section-2">섹션2</a>
                     </Item>
                     <Item style={{
-                                    color: currentScene === 3 ? "white" : "rgba(255,255,255,0.7)"
+                                    color: currentScene === 3 ? "white" : "rgba(255,255,255,0.7)",
+                                    display: currentScene === 3 && "block"
                                 }}>
                         <a href="#section-3">섹션3</a>
                     </Item>

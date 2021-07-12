@@ -27,7 +27,7 @@ const Nav = styled.div`
 const List = styled.ul`
     display: flex;
     margin-left: auto;
-    z-index: 99;
+    z-index: 1000;
 
     @media only screen and (max-width: 700px){
         display: none;
@@ -108,7 +108,7 @@ const GlobalNav = () => {
                     position: isOpen ? "fixed" : "",
                     left: isOpen ? "16px" : "",
                 }}>
-                    <NavLink to="/" onClick={closeNav}><img src="img/Logo.svg" alt="Logo"></img></NavLink>
+                    <NavLink to="/" onClick={closeNav}><img src={ require("img/Logo.svg").default} alt="Logo"></img></NavLink>
                 </Logo>
                 <List>
                     <Item>
@@ -148,7 +148,7 @@ const GlobalNav = () => {
                 <Menu onClick={toggleNav} style={{
                     position: isOpen ? "fixed" : "",
                     right: isOpen ? "16px" : ""
-                }}><img src="img/Menu.svg" alt="menu"></img></Menu>
+                }}><img src={require("img/Menu.svg").default} alt="menu"></img></Menu>
             </Nav>
         </NavContainer >
     )
