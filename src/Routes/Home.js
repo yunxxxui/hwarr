@@ -163,6 +163,8 @@ const CanvasContainer = styled.div`
 `;
 
 const Canvas = styled.canvas`
+    height: 100%;
+    width: auto;
     position: absolute;
     top:50%;
     left: 50%;
@@ -510,6 +512,18 @@ const Home = () => {
                                 }}>
                         <span ref={title}>스토리 마케팅 회사, 화르르</span>
                     </Item>
+                    <Item style={{
+                                    color: currentScene === 2 ? "white" : "rgba(255,255,255,0.7)",
+                                    display: currentScene === 2 && "block"
+                                }}>
+                        <a href="#section-2">section2</a>
+                    </Item>
+                    <Item style={{
+                                    color: currentScene === 3 ? "white" : "rgba(255,255,255,0.7)",
+                                    display: currentScene === 3 && "block"
+                                }}>
+                        <a href="#section-3">section3</a>
+                    </Item>
                     <Contact>
                         연락하기
                     </Contact>
@@ -563,7 +577,7 @@ const Home = () => {
                         </Messages>
 
                     </SceneA>
-                    <SceneB style={{ height: `${sceneHeight}px` }}>
+                    <SceneB id="section-2" style={{ height: `${sceneHeight}px` }}>
                         <Messages style={{
                             display: currentScene === 2 ? "flex" : "none",
                             opacity: `${value.action8}`,
@@ -573,7 +587,7 @@ const Home = () => {
                             <H1>On the Beach</H1>
                         </Messages>
                     </SceneB>
-                    <SceneC style={{ height: `${sceneHeight}px` }}>
+                    <SceneC id="section-3" style={{ height: `${sceneHeight}px` }}>
 
                     </SceneC>
                     <SceneD style={{ height: `${sceneHeight}px` }}>
