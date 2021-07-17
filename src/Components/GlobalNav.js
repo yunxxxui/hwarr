@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
+
+// 이미지 로드
 import LogoImg from "img/Logo.svg";
 import MenuImg from "img/Menu.svg";
 
@@ -32,22 +34,20 @@ const List = styled.ul`
     z-index: 1000;
 
     @media only screen and (max-width: 700px){
-        display: none;
+        flex-direction: column;
+        background-color: black;
+        width: 100%;
+        position: fixed;
+        top:0;
+        right:0;
+        height: 100vh;
+        z-index: 99;
+        padding-top: 52px;
+        transition: all 0.2s ease-in-out;
+        opacity: ${(props) => props.isOpen ? "1" : "0"};
+        display: ${(props) => props.isOpen ? "flex" : "hidden"};
+        right: ${(props) => props.isOpen ? "0" : "-100vh"};
     }
-`;
-
-const MobileList = styled.ul`
-    flex-direction: column;
-    background-color: black;
-    width: 100%;
-    position: fixed;
-    top:0;
-    right:0;
-    height: 100vh;
-    z-index: 99;
-    padding-top: 52px;
-    opacity: 0;
-    transition: all 0.2s ease-in-out;
 `;
 
 
@@ -56,14 +56,14 @@ const Logo = styled.div`
     z-index: 100;
     @media only screen and (max-width: 700px){
         display: block;
+        position: ${(props) => props.isOpen && "fixed"};
+        left: ${(props) => props.isOpen && "16px"};
     }
 `;
 
 const Item = styled.li`
     margin-left: 32px;
     color: rgba(255, 255, 255, 0.7);
-    transform: translate3d(5%, 0, 0);
-    transition: all 0.3s ease-in-out;
     &:hover {
         color: white;
     }
@@ -71,6 +71,9 @@ const Item = styled.li`
         margin: 0 16px;
         padding: 16px 0;
         border-bottom: 1px solid rgba(255,255,255,0.3);
+        -webkit-trasition: all 0.5s ease-in-out;
+        transition: all 0.5s ease-in-out;
+        transform: ${(props) => props.isOpen ? "translate3d(0, 0, 0)" : "translate3d(5%, 0, 0)"};
     }
 `;
 
@@ -88,6 +91,8 @@ const Menu = styled.button`
     @media only screen and (max-width: 700px){
         display: block;
         z-index: 100;
+        position:${(props) => props.isOpen && "fixed"};
+        right: ${(props) => props.isOpen && "16px"};
     }
 `;
 
@@ -106,50 +111,22 @@ const GlobalNav = () => {
     return (
         <NavContainer>
             <Nav>
-                <Logo style={{
-                    position: isOpen ? "fixed" : "",
-                    left: isOpen ? "16px" : "",
-                }}>
+                <Logo isOpen={isOpen}>
                     <NavLink to="/" onClick={closeNav}><img src={ LogoImg } alt="Logo"></img></NavLink>
                 </Logo>
-                <List>
-                    <Item>
-                        <NavLink to="/About">회사 소개</NavLink>
+                <List isOpen={isOpen} style={{ transitionDelay: isOpen && "0.1s", WebkitTransitionDelay: isOpen &&"0.1s"}}>
+                    <Item isOpen={isOpen}>
+                        <NavLink to="/About">소개</NavLink>
                     </Item>
-                    <Item>
-                        <NavLink to="/Projects">프로젝트</NavLink>
+                    <Item isOpen={isOpen} style={{transitionDelay: isOpen && "0.2s", WebkitTransitionDelay: isOpen &&"0.2s"}}>
+                        <NavLink to="/Projects">사례</NavLink>
                     </Item>
-                    <Item>
-                        <NavLink to="/FAQ">자주 묻는 질문</NavLink>
+                    <Item isOpen={isOpen} style={{transitionDelay: isOpen && "0.3s", WebkitTransitionDelay: isOpen && "0.3s"}}>
+                        <NavLink to="/FAQ">가격</NavLink>
                     </Item>
                 </List>
-                <MobileList style={{
-                    display: isOpen ? "flex" : "hidden",
-                    opacity: isOpen ? "1" : "0",
-                    right: isOpen ? "0" : "-100vh"
-                }}>
-                    <Item style={{
-                        transform: isOpen ? "translate3d(0, 0, 0)" : "",
-                        transitionDelay: "0.1s"
-                    }}>
-                        <NavLink to="/About" onClick={closeNav}>회사 소개</NavLink>
-                    </Item>
-                    <Item style={{
-                        transform: isOpen ? "translate3d(0, 0, 0)" : "",
-                        transitionDelay: "0.2s"
-                    }}>
-                        <NavLink to="/Projects" onClick={closeNav}>프로젝트</NavLink>
-                    </Item>
-                    <Item style={{
-                        transform: isOpen ? "translate3d(0, 0, 0)" : "",
-                        transitionDelay: "0.3s"
-                    }}>
-                        <NavLink to="/FAQ" onClick={closeNav}>자주 묻는 질문</NavLink>
-                    </Item>
-                </MobileList>
-                <Menu onClick={toggleNav} style={{
-                    position: isOpen ? "fixed" : "",
-                    right: isOpen ? "16px" : ""
+                <Menu onClick={toggleNav} isOpen={isOpen} style={{
+                    
                 }}><img src={MenuImg} alt="menu"></img></Menu>
             </Nav>
         </NavContainer >

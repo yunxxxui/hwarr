@@ -43,5 +43,9 @@
       "last 1 safari version"
     ]
   },
-  "homepage": "https://yunxxxui.gitub.io/hwarr"
+  "homepage": "https://yunxxxui.gitub.io/hwarr",
+  "main": "index.js",
+  "repository": "https://github.com/yunxxxui/hwarr.git",
+  "author": "yunxxxui <32703956+yunxxxui@users.noreply.github.com>",
+  "license": "MIT"
 }
