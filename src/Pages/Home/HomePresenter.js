@@ -244,22 +244,37 @@ const playAnimation = (y, s, videoInfo) => {
                 end: 0.5
             }
         ],
-        video_opacity_out: [
+        video1_opacity_out: [
             1,
             0,
             {
-                start: 0.95,
+                start: 0.9,
                 end: 1
             }
         ],
-
+        video2_opacity_in: [
+            0,
+            1,
+            {
+                start: 0,
+                end: 0.1
+            }
+        ],
+        video2_opacity_out: [
+            1,
+            0,
+            {
+                start: 0.9,
+                end: 1
+            }
+        ],
     }
     switch (s) {
         case 1:
 
             //비디오
             v.sequence1 = Math.round(calc(videoInfo.video1.imageSequence, y));
-            v.action0 = calc(i.video_opacity_out, y);
+            v.action0 = calc(i.video1_opacity_out, y);
             
 
             if (y < 0.22) {
@@ -283,6 +298,11 @@ const playAnimation = (y, s, videoInfo) => {
                 //비디오
                 v.sequence2 = Math.round(calc(videoInfo.video2.imageSequence, y));
 
+                if (y < 0.1) {
+                    v.action9 = calc(i.video2_opacity_in, y);
+                } else {
+                    v.action9 = calc(i.video2_opacity_out, y);
+                }
 
             break;
         case 3:
@@ -367,6 +387,10 @@ const HomePresenter = ({sceneHeight, currentScene, videoInfo, currentRatioY}) =>
                     <Video
                         videoImages={videoInfo.video2.videoImages}
                         value={value.sequence2}
+                        style={{
+                            display: currentScene === 2 ? "block" : "none",
+                            opacity: `${value.action9}`,
+                        }}
                     />
                 </Scene>
                 <Scene
@@ -375,20 +399,20 @@ const HomePresenter = ({sceneHeight, currentScene, videoInfo, currentRatioY}) =>
                 >
                     <Messages style={{
                         display: currentScene === 3 ? "flex" : "none",
-                        opacity: `${value.action5}`,
-                        transform: `translate3d(0,${value.action6}%,0)`
-                    }}>
-                        <H1>기계적, 반복적</H1>
-                        <H1>광고가 아닌</H1>
-                    </Messages> 
-                    <Messages style={{
-                        display: currentScene === 3 ? "flex" : "none",
                         opacity: `${value.action8}`,
                         transform: `scale(${value.action7}, ${value.action7}) translateY(-4%)`,
                     }}>
+                        <H1>기계적, 반복적</H1>
+                        <H1>광고가 아닌</H1>
+                    </Messages>
+                    <Messages style={{
+                        display: currentScene === 3 ? "flex" : "none",
+                        opacity: `${value.action5}`,
+                        transform: `translate3d(0,${value.action6}%,0)`
+                    }}>
                         <H1>단, 하나뿐인</H1>
                         <H1>당신의 이야기.</H1>
-                    </Messages>
+                    </Messages> 
                 </Scene>
                 <Scene
                     currentScene={currentScene === 4 ? true : false}

@@ -21,7 +21,8 @@ const Canvas = styled.canvas`
 `;
 
 
-function Video({ videoImages, value }) {
+function Video({ videoImages, value, style }) {
+
     let canvasRef = useRef(null);
 
     useEffect(()=>{
@@ -34,7 +35,7 @@ function Video({ videoImages, value }) {
 
     return (
         <>
-            <CanvasContainer>
+            <CanvasContainer style={style}>
                 <Canvas
                     ref={canvasRef}
                     width={1920}
