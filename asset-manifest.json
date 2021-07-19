@@ -1,13 +1,13 @@
 {
   "files": {
-    "main.js": "/hwarr/static/js/main.5e30dfc2.chunk.js",
-    "main.js.map": "/hwarr/static/js/main.5e30dfc2.chunk.js.map",
+    "main.js": "/hwarr/static/js/main.ea4e05b0.chunk.js",
+    "main.js.map": "/hwarr/static/js/main.ea4e05b0.chunk.js.map",
     "runtime-main.js": "/hwarr/static/js/runtime-main.194ff7ac.js",
     "runtime-main.js.map": "/hwarr/static/js/runtime-main.194ff7ac.js.map",
-    "static/js/2.e88daaf5.chunk.js": "/hwarr/static/js/2.e88daaf5.chunk.js",
-    "static/js/2.e88daaf5.chunk.js.map": "/hwarr/static/js/2.e88daaf5.chunk.js.map",
+    "static/js/2.f04a4b55.chunk.js": "/hwarr/static/js/2.f04a4b55.chunk.js",
+    "static/js/2.f04a4b55.chunk.js.map": "/hwarr/static/js/2.f04a4b55.chunk.js.map",
     "index.html": "/hwarr/index.html",
-    "static/js/2.e88daaf5.chunk.js.LICENSE.txt": "/hwarr/static/js/2.e88daaf5.chunk.js.LICENSE.txt",
+    "static/js/2.f04a4b55.chunk.js.LICENSE.txt": "/hwarr/static/js/2.f04a4b55.chunk.js.LICENSE.txt",
     "static/media/IMG_1000.webp": "/hwarr/static/media/IMG_1000.a227b8e9.webp",
     "static/media/IMG_1001.webp": "/hwarr/static/media/IMG_1001.31ebc0e1.webp",
     "static/media/IMG_1002.webp": "/hwarr/static/media/IMG_1002.fab4aa67.webp",
@@ -494,7 +494,7 @@
   },
   "entrypoints": [
     "static/js/runtime-main.194ff7ac.js",
-    "static/js/2.e88daaf5.chunk.js",
-    "static/js/main.5e30dfc2.chunk.js"
+    "static/js/2.f04a4b55.chunk.js",
+    "static/js/main.ea4e05b0.chunk.js"
   ]
 }
