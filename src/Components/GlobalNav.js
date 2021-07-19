@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 
@@ -116,13 +116,13 @@ const GlobalNav = () => {
                 </Logo>
                 <List isOpen={isOpen} style={{ transitionDelay: isOpen && "0.1s", WebkitTransitionDelay: isOpen &&"0.1s"}}>
                     <Item isOpen={isOpen}>
-                        <NavLink to="/About">소개</NavLink>
+                        <NavLink to="/About">회사소개</NavLink>
                     </Item>
                     <Item isOpen={isOpen} style={{transitionDelay: isOpen && "0.2s", WebkitTransitionDelay: isOpen &&"0.2s"}}>
-                        <NavLink to="/Projects">사례</NavLink>
+                        <NavLink to="/Projects">요금안내</NavLink>
                     </Item>
                     <Item isOpen={isOpen} style={{transitionDelay: isOpen && "0.3s", WebkitTransitionDelay: isOpen && "0.3s"}}>
-                        <NavLink to="/FAQ">가격</NavLink>
+                        <NavLink to="/FAQ">연락문의</NavLink>
                     </Item>
                 </List>
                 <Menu onClick={toggleNav} isOpen={isOpen} style={{

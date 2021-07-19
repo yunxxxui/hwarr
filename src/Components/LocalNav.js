@@ -1,15 +1,27 @@
-import React, { useState, useEffect, useRef } from "react";
-import styled, { css, keyframes } from "styled-components";
+import { useEffect, useRef, useState } from "react";
+import styled, { css } from "styled-components";
 
 //CSS
 const LocalContainer = styled.div`
-    position: -webkit-sticky;
     position: sticky;
-    margin-top: 44px;
-    top:-1px;
+    position: -webkit-sticky;
+    margin-top: 48px;
+    top:0px;
     z-index: 1;
     transition: background-color 0.5s cubic-bezier(0.28, 0.11, 0.32, 1);
     transition-property: background-color, backdrop-filter, -webkit-backdrop-filter;
+
+    ${(props) => props.isOn &&
+        css`
+            position: fixed;
+            margin-top: 0;
+            width: 100%;
+            --webkit-backdrop-filter: saturate(180%) blur(20px);
+            backdrop-filter: saturate(180%) blur(20px);
+            background-color: rgba(255,255,255,0.3);
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        `
+    } 
 `;
 
 const LocalList = styled.ul`
@@ -74,22 +86,18 @@ const useClick = onClick => {
 const scrollTop = () => window.scrollTo(0, 0)
 
 
-
-
-
-const LocalNav = (scrollY) => {
-    //Clikc이벤트
+//HTML
+const LocalNav = ({scrollY}) => {
     const title = useClick(scrollTop);
-    //Click Event
+    const [isOn,setIsOn] = useState();
+
+    useEffect(()=>{
+        scrollY > 160 ? setIsOn(true) : setIsOn(false);
+    },[scrollY])
 
     return(
         <>
-            <LocalContainer style={{
-                WebkitBackdropFilter: scrollY > 52 && "saturate(180%) blur(20px)",
-                backdropFilter: scrollY > 52 && "saturate(180%) blur(20px)",
-                backgroundColor: scrollY > 52 && "rgba(255,255,255,0.3)",
-                borderBottom: scrollY > 52 && "1px solid rgba(255,255,255,0.1)",
-            }}>
+            <LocalContainer isOn={isOn}>
                 <LocalList>
                     <Item>
                         <span ref={title}>스토리 마케팅 회사, 화르르</span>

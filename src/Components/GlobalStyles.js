@@ -8,11 +8,12 @@ const globalStyles = createGlobalStyle`
         text-decoration: none;
         color: inherit;
     }
-    *{
+    *{  
         box-sizing: border-box;
     }
     body {
         overflow-x: hidden;
+        overflow-y: scroll;
         width: 100%;
         color: white;
         font: -apple-system,'SF Pro Display','Spoqa Han Sans Neo', 'Helvetica Neue',  'Apple SD Gothic Neo', 'Roboto', 'Noto Sans KR', 'Malgun Gothic', sans-serif;
