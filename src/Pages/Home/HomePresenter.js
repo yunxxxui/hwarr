@@ -232,8 +232,8 @@ const playAnimation = (y, s, videoInfo) => {
             0,
             1,
             {
-                start: 0.05,
-                end: 0.1
+                start: 0,
+                end: 0.05
             }
         ],
         messageD_opacity_out: [
@@ -322,6 +322,10 @@ const playAnimation = (y, s, videoInfo) => {
             } else {
                 v.action8 = calc(i.messageD_opacity_out, y);
             }
+
+            break;
+
+        case 4:
 
             break;
 

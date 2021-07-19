@@ -11,8 +11,9 @@ import useResize from "Components/Hooks/useResize";
 import useDelay from "Components/Hooks/useDelay";
 
 
+
 //한 씬 길이
-const sceneHeight = 5;
+const sceneHeight = 8;
 
 //비디오 정보
 const videoInfo = {
@@ -29,7 +30,6 @@ const videoInfo = {
         imageSequence: [0, 480, {start:0, end:1}]
     }
 }
-
 
 //비디오 로딩
 const useImages = () => {
@@ -59,13 +59,9 @@ const useImages = () => {
     return loading
 };
 
-let rafId = 0;
-let delayY = 0;
-
 const HomeContainer = () => {
 
     const loading = useImages();
-
     const { scrollY } = useScroll();
     const { delayY } = useDelay(scrollY);
     const { windowHeight } = useResize();

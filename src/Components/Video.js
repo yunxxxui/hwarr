@@ -1,4 +1,4 @@
-import {useEffect, useRef} from "react";
+import {useState, useEffect, useRef} from "react";
 import styled from "styled-components";
 
 const CanvasContainer = styled.div`
@@ -21,18 +21,27 @@ const Canvas = styled.canvas`
 `;
 
 
-function Video({ videoImages, value, style }) {
 
-    let canvasRef = useRef(null);
+function Video({ videoImages, value, style }) {
+    const canvasRef = useRef(null);
+    const [context, setContext] = useState();
 
     useEffect(()=>{
-        let canvas = canvasRef.current;
-        let context = canvas.getContext(`2d`);
-        if(videoImages.length > 0) {
+        if (canvasRef.current) {
+            const renderCtx = canvasRef.current.getContext('2d');
+            if (renderCtx) {
+              setContext(renderCtx);
+            }
+          }
+    }, [context]);
+
+    useEffect(()=>{
+        if (context && videoImages.length > 0) {
             context.drawImage(videoImages[value], 0, 0);
         }
-    },[value, videoImages])
+    },[context, value, videoImages])
 
+    
     return (
         <>
             <CanvasContainer style={style}>

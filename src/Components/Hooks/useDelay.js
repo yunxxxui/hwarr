@@ -1,8 +1,3 @@
-//부드럽게 처리
-
-//부드럽게 처리
-
-
 /* eslint-disable react-hooks/exhaustive-deps */
 import {useState, useEffect} from "react";
 
