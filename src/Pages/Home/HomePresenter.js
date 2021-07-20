@@ -96,8 +96,8 @@ const HomePresenter = ({sceneHeight, currentScene, videoInfo, currentRatioY}) =>
                         currentRatioY = {currentRatioY}
                         value = {{
                             opacity: {
-                                IN: [1,1,{start:0, end:0.1}],
-                                OUT: [1,0,{start:0.95, end:1}],
+                                IN: [0,1,{start:0, end:0.05}],
+                                OUT: [1,0,{start:0.9, end:1}],
                                 KEY: "opacity"
                             }
                         }}
@@ -171,8 +171,8 @@ const HomePresenter = ({sceneHeight, currentScene, videoInfo, currentRatioY}) =>
                         currentRatioY = {currentRatioY}
                         value = {{
                             opacity: {
-                                IN: [1,1,{start:0, end:0.1}],
-                                OUT: [1,0,{start:0.95, end:1}],
+                                IN: [0,1,{start:0, end:0.1}],
+                                OUT: [1,0,{start:0.85, end:1}],
                                 KEY: "opacity"
                             }
                         }}
@@ -189,13 +189,13 @@ const HomePresenter = ({sceneHeight, currentScene, videoInfo, currentRatioY}) =>
                         currentRatioY = {currentRatioY}
                         value = {{
                             opacity: {
-                                IN: [0,1,{start:0.6, end:0.65}],
-                                OUT: [1,0,{start:0.85, end:0.95}],
+                                IN: [0,1,{start:0.1, end:0.15}],
+                                OUT: [1,0,{start:0.35, end:0.45}],
                                 KEY: "opacity"
                             },
                             translateY: {
-                                IN: [10,0,{start:0.6, end:0.65}],
-                                OUT: [0,-5,{start:0.83, end:0.95}],
+                                IN: [10,0,{start:0.1, end:0.15}],
+                                OUT: [0,-5,{start:0.33, end:0.5}],
                                 KEY: "translateY"
                             }
                         }}
@@ -213,13 +213,13 @@ const HomePresenter = ({sceneHeight, currentScene, videoInfo, currentRatioY}) =>
                         currentRatioY = {currentRatioY}
                         value = {{
                             opacity: {
-                                IN: [0,1,{start:0, end:0.05}],
-                                OUT: [1,0,{start:0.45, end:0.5}],
+                                IN: [0,1,{start:0.5, end:0.55}],
+                                OUT: [1,0,{start:0.95, end:1}],
                                 KEY: "opacity"
                             },
                             transMatrix: {
-                                IN: [0,3,{start:0, end:0.44}],
-                                OUT: [3,30,{start:0.45, end:0.5}],
+                                IN: [0,3,{start:0.5, end:0.94}],
+                                OUT: [3,30,{start:0.95, end:1}],
                                 KEY: "transMatrix"
                             }
                         }}

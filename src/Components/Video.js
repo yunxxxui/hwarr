@@ -81,6 +81,11 @@ function Video({ videoInfo, currentScene, currentRatioY, value }) {
     useEffect(()=>{
         if (context && videoInfo.videoImages.length > 0 && v.sequence) {
             context.drawImage(videoInfo.videoImages[v.sequence], 0, 0);
+            console.log("이미지 렌더")
+        } else if (context && videoInfo.videoImages.length > 0){
+            context.drawImage(videoInfo.videoImages[0], 0, 0);
+            console.log("첫 이미지 렌더")
+            console.log(videoInfo.videoImages[0])
         }
     },[context, v.sequence, videoInfo.videoImages])
 
